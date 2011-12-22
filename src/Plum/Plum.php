@@ -139,6 +139,16 @@ class Plum
     }
 
     /**
+     * Returns servers
+     *
+     * @return array
+     */
+    public function getServers()
+    {
+        return $this->servers;
+    }
+
+    /**
      * Deploy to the server using the deployer
      *
      * @param string $server
