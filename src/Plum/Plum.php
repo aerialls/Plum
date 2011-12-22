@@ -83,6 +83,10 @@ class Plum
      */
     public function addServer($name, $server)
     {
+        if (null === $server) {
+            throw new \InvalidArgumentException('The server can not be null.');
+        }
+
         if (isset($this->servers[$name])) {
             throw new \InvalidArgumentException(sprintf('The server "%s" is already registered.', $name));
         }
