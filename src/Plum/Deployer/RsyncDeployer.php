@@ -20,12 +20,12 @@ class RsyncDeployer implements DeployerInterface
      */
     public function deploy(ServerInterface $server, array $options = array())
     {
-        $dryRun = isset($options['dryRun']) ? '--dry-run' : '';
+        $dryRun = isset($options['dry_run']) ? '--dry-run' : '';
 
         // Exclude file
         $excludeFile = null;
-        if (isset($options['excludeFile'])) {
-            $excludeFile = realpath($options['excludeFile']);
+        if (isset($options['rsync_exclude'])) {
+            $excludeFile = realpath($options['rsync_exclude']);
             if (false === file_exists($excludeFile)) {
                 throw new \InvalidArgumentException('The exclude file does not exist.');
             }
