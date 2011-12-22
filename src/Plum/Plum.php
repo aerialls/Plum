@@ -93,6 +93,22 @@ class Plum
     }
 
     /**
+     * Add a list of servers
+     *
+     * @param array $servers
+     *
+     * @return \Plum\Plum
+     */
+    public function addServers(array $servers)
+    {
+        foreach ($servers as $name => $server) {
+            $this->addServer($name, $server);
+        }
+
+        return $this;
+    }
+
+    /**
      * Remove a server
      *
      * @param string $name
