@@ -21,6 +21,7 @@ class RsyncDeployer implements DeployerInterface
     public function deploy(ServerInterface $server, array $options = array())
     {
         $dryRun = isset($options['dry_run']) ? '--dry-run' : '';
+        $rsyncOptions = isset($options['rsync_options']) ? $options['rsync_options'] : '-azC --force --delete --progress';
 
         // Exclude file
         $excludeFile = null;
@@ -48,7 +49,7 @@ class RsyncDeployer implements DeployerInterface
 
         $command = sprintf('rsync %s %s %s ./ %s  %s',
                 $dryRun,
-                isset($options['options']) ? $options['options'] : '',
+                $rsyncOptions,
                 $ssh,
                 $login,
                 $exclude
