@@ -25,10 +25,12 @@ class RsyncDeployer implements DeployerInterface
         // Exclude file
         $excludeFile = null;
         if (isset($options['rsync_exclude'])) {
-            $excludeFile = realpath($options['rsync_exclude']);
+            $excludeFile = $options['rsync_exclude'];
             if (false === file_exists($excludeFile)) {
-                throw new \InvalidArgumentException('The exclude file does not exist.');
+                throw new \InvalidArgumentException(sprintf('The exclude file "%s" does not exist.', $excludeFile));
             }
+
+            $excludeFile = realpath($excludeFile);
         }
 
         if (null !== $excludeFile) {
