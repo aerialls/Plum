@@ -22,13 +22,6 @@ class SshDeployer implements DeployerInterface
      */
     protected $con;
 
-    public function __construct()
-    {
-        if (!function_exists('ssh2_connect')) {
-            throw new \RuntimeException('The "ssh2_connect" function does not exist.');
-        }
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -64,6 +57,10 @@ class SshDeployer implements DeployerInterface
      */
     protected function connect(ServerInterface $server)
     {
+        if (!function_exists('ssh2_connect')) {
+            throw new \RuntimeException('The "ssh2_connect" function does not exist.');
+        }
+
         $con = ssh2_connect($server->getHost(), $server->getPort());
 
         if (false === $con) {
