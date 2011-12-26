@@ -17,6 +17,19 @@ use Plum\Exception\SshException;
 class SshDeployer implements DeployerInterface
 {
     /**
+     * The SSH connection
+     * @var ressource
+     */
+    protected $con;
+
+    public function __construct()
+    {
+        if (!function_exists('ssh2_connect')) {
+            throw new \RuntimeException('The "ssh2_connect" function does not exist.');
+        }
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function deploy(ServerInterface $server, array $options = array())
@@ -27,21 +40,19 @@ class SshDeployer implements DeployerInterface
             return;
         }
 
-        if (!function_exists('ssh2_connect')) {
-            throw new \RuntimeException('The "ssh2_connect" function does not exist.');
-        }
-
         if (null === $server->getPassword()) {
             throw new \InvalidArgumentException('No password found for the server.');
         }
 
-        $con = $this->connect($server);
+        $this->connect($server);
 
         foreach ($commands as $command) {
-            $this->exec($con, $command);
+            // We need to jump to the right directory..
+            $command = sprintf('cd %s && %s', $server->getDir(), $command);
+            $this->exec($command);
         }
 
-        $this->disconnect($con);
+        $this->disconnect();
     }
 
     /**
@@ -63,31 +74,28 @@ class SshDeployer implements DeployerInterface
             throw new SshException(sprintf('Authorization failed for user "%s"', $server->getUser()));
         }
 
-        return $con;
+        $this->con = $con;
     }
 
     /**
      * Close the SSH connection
-     *
-     * @param ressource $con The connection
      */
-    protected function disconnect($con)
+    protected function disconnect()
     {
-        $this->exec($con, 'echo "EXITING" && exit;');
+        $this->exec('echo "EXITING" && exit;');
     }
 
     /**
      * Execute a SSH command
      *
-     * @param ressource $con The SSH connection
-     * @param string    $cmd The SSH command
+     * @param string $cmd The SSH command
      *
-     * @return string
+     * @return string The output
      */
-    protected function exec($con, $cmd)
+    protected function exec($cmd)
     {
-        if (false === $stream = ssh2_exec($con, $cmd)) {
-            throw new \Exception('SSH command failed');
+        if (false === $stream = ssh2_exec($this->con, $cmd)) {
+            throw new SshException(sprintf('"%s" : SSH command failed', $cmd));
         }
 
         stream_set_blocking($stream, true);
