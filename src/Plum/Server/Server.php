@@ -13,12 +13,37 @@ namespace Plum\Server;
 
 class Server implements ServerInterface
 {
+    /**
+     * The connection hostname
+     * @var string
+     */
     protected $host;
+
+    /**
+     * The connection port
+     * @var string
+     */
     protected $port;
+
+    /**
+     * The connection username
+     * @var string
+     */
     protected $user;
+
+    /**
+     * The connection directory
+     * @var string
+     */
     protected $dir;
 
-    public function __construct($host, $user, $dir, $port = 22)
+    /**
+     * The connection password
+     * @var string
+     */
+    protected $password;
+
+    public function __construct($host, $user, $dir, $password = null, $port = 22)
     {
         if ('/' !== substr($dir, -1)) {
             $dir .= '/';
@@ -28,6 +53,7 @@ class Server implements ServerInterface
         $this->port = $port;
         $this->user = $user;
         $this->dir  = $dir;
+        $this->password = $password;
     }
 
     /**
@@ -60,5 +86,13 @@ class Server implements ServerInterface
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPassword()
+    {
+        return $this->password;
     }
 }

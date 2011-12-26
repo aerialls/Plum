@@ -32,4 +32,9 @@ interface ServerInterface
      * Returns the user
      */
     public function getUser();
+
+    /**
+     * Returns the password
+     */
+    public function getPassword();
 }
