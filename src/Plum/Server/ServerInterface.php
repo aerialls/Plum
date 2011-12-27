@@ -16,25 +16,30 @@ interface ServerInterface
     /**
      * Return the connection port
      */
-    public function getPort();
+    function getPort();
 
     /**
      * Returns the host
      */
-    public function getHost();
+    function getHost();
 
     /**
      * Returns the directory
      */
-    public function getDir();
+    function getDir();
 
     /**
      * Returns the user
      */
-    public function getUser();
+    function getUser();
 
     /**
      * Returns the password
      */
-    public function getPassword();
+    function getPassword();
+
+    /**
+     * Returns options
+     */
+    function getOptions();
 }

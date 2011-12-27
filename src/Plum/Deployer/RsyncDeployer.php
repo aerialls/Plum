@@ -34,10 +34,9 @@ class RsyncDeployer implements DeployerInterface
             $excludeFile = realpath($excludeFile);
         }
 
+        $exclude = '';
         if (null !== $excludeFile) {
             $exclude = sprintf('--exclude-from \'%s\'', $excludeFile);
-        } else {
-            $exclude = '';
         }
 
         $ssh = '';

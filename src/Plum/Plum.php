@@ -25,10 +25,17 @@ class Plum
      */
     protected $deployers;
 
+    /**
+     * List of options
+     * @var array
+     */
+    protected $options;
+
     public function __construct()
     {
         $this->servers = array();
         $this->deployers = array();
+        $this->options = array();
     }
 
     /**
@@ -103,7 +110,7 @@ class Plum
      *
      * @return \Plum\Plum
      */
-    public function addServers(array $servers)
+    public function setServers(array $servers)
     {
         foreach ($servers as $name => $server) {
             $this->addServer($name, $server);
@@ -165,5 +172,29 @@ class Plum
         $deployer = $this->getDeployer($deployer);
 
         return $deployer->deploy($server, $options);
+    }
+
+    public function setOptions(array $options)
+    {
+        $this->options = $options;
+    }
+
+    /**
+     * Add an option
+     *
+     * @param string $key
+     * @param string $value
+     */
+    public function addOption($key, $value)
+    {
+        $this->options[$key] = $value;
+    }
+
+    /**
+     * Returns options
+     */
+    public function getOptions()
+    {
+        return $this->options;
     }
 }

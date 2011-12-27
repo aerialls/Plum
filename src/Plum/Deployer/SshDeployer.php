@@ -37,12 +37,17 @@ class SshDeployer implements DeployerInterface
             throw new \InvalidArgumentException('No password found for the server.');
         }
 
+        // Dry run?
+        $dryRun = isset($options['dry_run']) && $options['dry_run'];
+
         $this->connect($server);
 
-        foreach ($commands as $command) {
-            // We need to jump to the right directory..
-            $command = sprintf('cd %s && %s', $server->getDir(), $command);
-            $this->exec($command);
+        if (false === $dryRun) {
+            foreach ($commands as $command) {
+                // We need to jump to the right directory..
+                $command = sprintf('cd %s && %s', $server->getDir(), $command);
+                $this->exec($command);
+            }
         }
 
         $this->disconnect();
