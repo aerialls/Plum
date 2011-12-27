@@ -13,14 +13,16 @@ namespace Plum\Deployer;
 
 use Plum\Server\ServerInterface;
 
-class RsyncDeployer implements DeployerInterface
+class RsyncDeployer extends AbstractDeployer
 {
     /**
      * {@inheritDoc}
      */
     public function deploy(ServerInterface $server, array $options = array())
     {
-        $dryRun = isset($options['dry_run']) ? '--dry-run' : '';
+        parent::deploy($server, $options);
+
+        $dryRun = $this->dryRun ? '--dry-run' : '';
         $rsyncOptions = isset($options['rsync_options']) ? $options['rsync_options'] : '-azC --force --delete --progress';
 
         // Exclude file

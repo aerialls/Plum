@@ -14,7 +14,7 @@ namespace Plum\Deployer;
 use Plum\Server\ServerInterface;
 use Plum\Exception\SshException;
 
-class SshDeployer implements DeployerInterface
+class SshDeployer extends AbstractDeployer
 {
     /**
      * The SSH connection
@@ -27,6 +27,8 @@ class SshDeployer implements DeployerInterface
      */
     public function deploy(ServerInterface $server, array $options = array())
     {
+        parent::deploy($server, $options);
+
         $commands = isset($options['commands']) ? $options['commands'] : array();
         if (0 === count($commands)) {
             // The SSH deployer is useless if the user has no command
@@ -36,13 +38,9 @@ class SshDeployer implements DeployerInterface
         if (null === $server->getPassword()) {
             throw new \InvalidArgumentException('No password found for the server.');
         }
-
-        // Dry run?
-        $dryRun = isset($options['dry_run']) && $options['dry_run'];
-
         $this->connect($server);
 
-        if (false === $dryRun) {
+        if (false === $this->dryRun) {
             foreach ($commands as $command) {
                 // We need to jump to the right directory..
                 $command = sprintf('cd %s && %s', $server->getDir(), $command);
