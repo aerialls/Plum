@@ -1,21 +1,21 @@
 {
-    "name":         "madalynn/plum",
-    "type":         "library",
-    "description":  "An object oriented deployer library",
-    "keywords":     ["deploy", "rsync", "ssh"],
-    "homepage":     "http://www.madalynn.eu",
-    "license":      "MIT",
-    "authors":      [
+    "name": "madalynn/plum",
+    "type": "library",
+    "description": "An object oriented deployer library",
+    "keywords": ["deploy", "rsync", "ssh"],
+    "homepage": "http://www.madalynn.eu",
+    "license": "MIT",
+    "authors": [
         {
             "name": "Julien Brochet",
             "email": "mewt@madalynn.eu",
             "homepage": "http://julien.brochet.me"
         }
     ],
-    "require":      {
-        "php":  ">=5.3.2"
+    "require": {
+        "php": ">=5.3.2"
     },
-    "autoload":     {
+    "autoload": {
         "psr-0": { "Plum": "src/" }
     }
 }
