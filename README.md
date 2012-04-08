@@ -10,6 +10,12 @@ Plum does not provide and autoloader but follow the PSR-0 convention.
 
     $plum = new \Plum\Plum();
 
+    // Add global options for all the servers
+    $plum->setOptions(array(
+        'dryRun'      => true,
+        'excludeFile' => __DIR__.'/exclude.txt'
+    ));
+
     // Register the rsync deployer
     $plum->registerDeployer(new \Plum\Deployer\RsyncDeployer());
 
@@ -18,10 +24,3 @@ Plum does not provide and autoloader but follow the PSR-0 convention.
 
     // Let's go!
     $plum->deploy('bender', 'rsync');
-
-You can add options for the deploy.
-
-    $plum->deploy('bender', 'rsync', array(
-        'dryRun' => true,
-        'excludeFile' => __DIR__.'/exclude.txt'
-    ));
