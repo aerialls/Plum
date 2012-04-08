@@ -39,6 +39,11 @@ interface ServerInterface
     function getPassword();
 
     /**
+     * Returns the hidden password
+     */
+    function getHiddenPassword();
+
+    /**
      * Returns options
      */
     function getOptions();

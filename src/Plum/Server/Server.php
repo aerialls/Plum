@@ -112,6 +112,14 @@ class Server implements ServerInterface
     /**
      * {@inheritDoc}
      */
+    public function getHiddenPassword()
+    {
+        return str_repeat('*', strlen($this->password));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getOptions()
     {
         return $this->options;
