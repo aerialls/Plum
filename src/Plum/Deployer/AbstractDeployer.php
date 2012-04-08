@@ -16,20 +16,26 @@ use Plum\Server\ServerInterface;
 abstract class AbstractDeployer implements DeployerInterface
 {
     /**
-     * Dry run mode
-     * @var boolean
-     */
-    protected $dryRun;
-
-    /**
      * {@inheritDoc}
      */
     public function deploy(ServerInterface $server, array $options = array())
     {
-        // Dry run?
-        $this->dryRun = false;
+        $options = array_merge($options, $server->getOptions());
+
+        $dryRun = false;
         if (isset($options['dry_run']) && $options['dry_run']) {
-            $this->dryRun = true;
+            $dryRun = true;
         }
+
+        return $this->doDeploy($server, $options, $dryRun);
     }
+
+    /**
+     * Do a deploy
+     *
+     * @param ServerInterface $server  The server
+     * @param array           $options The options
+     * @param Boolean         $dryRun  Dry run mode
+     */
+    public abstract function doDeploy(ServerInterface $server, array $options, $dryRun);
 }

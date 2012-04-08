@@ -33,9 +33,9 @@ class Plum
 
     public function __construct()
     {
-        $this->servers = array();
+        $this->servers   = array();
         $this->deployers = array();
-        $this->options = array();
+        $this->options   = array();
     }
 
     /**
@@ -73,7 +73,7 @@ class Plum
      */
     public function getDeployer($deployer)
     {
-        if (!isset($this->deployers[$deployer])) {
+        if (false === isset($this->deployers[$deployer])) {
             throw new \InvalidArgumentException(sprintf('The deployer "%s" is not registered.', $deployer));
         }
 
@@ -81,7 +81,7 @@ class Plum
     }
 
     /**
-     * Add a server to the list
+     * Adds a server to the list
      *
      * @param string $name
      * @param Server $server
@@ -94,7 +94,7 @@ class Plum
             throw new \InvalidArgumentException('The server can not be null.');
         }
 
-        if (isset($this->servers[$name])) {
+        if (true === isset($this->servers[$name])) {
             throw new \InvalidArgumentException(sprintf('The server "%s" is already registered.', $name));
         }
 
@@ -104,7 +104,7 @@ class Plum
     }
 
     /**
-     * Add a list of servers
+     * Adds a list of servers
      *
      * @param array $servers
      *
@@ -160,18 +160,17 @@ class Plum
     }
 
     /**
-     * Deploy to the server using the deployer
+     * Deploys to the server using the deployer
      *
-     * @param string $server
-     * @param string $deployer
-     * @param array  $options
+     * @param string $server   The name of the server
+     * @param string $deployer The name of the deployer
      */
-    public function deploy($server, $deployer, $options = array())
+    public function deploy($server, $deployer)
     {
         $server   = $this->getServer($server);
         $deployer = $this->getDeployer($deployer);
 
-        return $deployer->deploy($server, $options);
+        return $deployer->deploy($server, $this->options);
     }
 
     public function setOptions(array $options)
@@ -180,7 +179,7 @@ class Plum
     }
 
     /**
-     * Add an option
+     * Adds a global option
      *
      * @param string $key
      * @param string $value
@@ -191,10 +190,18 @@ class Plum
     }
 
     /**
-     * Returns options
+     * Returns the array of options
+     *
+     * @param string $server The server name
      */
-    public function getOptions()
+    public function getOptions($server = null)
     {
-        return $this->options;
+        if (null === $server) {
+            return $this->options;
+        }
+
+        $server = $this->getServer($server);
+
+        return array_merge($this->options, $server->getOptions());
     }
 }

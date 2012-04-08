@@ -18,11 +18,8 @@ class RsyncDeployer extends AbstractDeployer
     /**
      * {@inheritDoc}
      */
-    public function deploy(ServerInterface $server, array $options = array())
+    public function doDeploy(ServerInterface $server, array $options, $dryRun)
     {
-        parent::deploy($server, $options);
-
-        $dryRun = $this->dryRun ? '--dry-run' : '';
         $rsyncOptions = isset($options['rsync_options']) ? $options['rsync_options'] : '-azC --force --delete --progress';
 
         // Exclude file

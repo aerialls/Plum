@@ -18,6 +18,7 @@ class SshDeployer extends AbstractDeployer
 {
     /**
      * The SSH connection
+     *
      * @var ressource
      */
     protected $con;
@@ -25,10 +26,8 @@ class SshDeployer extends AbstractDeployer
     /**
      * {@inheritDoc}
      */
-    public function deploy(ServerInterface $server, array $options = array())
+    public function doDeploy(ServerInterface $server, array $options, $dryRun)
     {
-        parent::deploy($server, $options);
-
         $commands = isset($options['commands']) ? $options['commands'] : array();
         if (0 === count($commands)) {
             // The SSH deployer is useless if the user has no command
@@ -36,11 +35,12 @@ class SshDeployer extends AbstractDeployer
         }
 
         if (null === $server->getPassword()) {
-            throw new \InvalidArgumentException('No password found for the server.');
+            throw new SshException('No password found for the server.');
         }
+
         $this->connect($server);
 
-        if (false === $this->dryRun) {
+        if (false === $dryRun) {
             foreach ($commands as $command) {
                 // We need to jump to the right directory..
                 $command = sprintf('cd %s && %s', $server->getDir(), $command);
@@ -55,12 +55,10 @@ class SshDeployer extends AbstractDeployer
      * Open the SSH connection
      *
      * @param Plum\Server\ServerInterface $server
-     *
-     * @return ressource The ssh2 connection
      */
     protected function connect(ServerInterface $server)
     {
-        if (!function_exists('ssh2_connect')) {
+        if (false === function_exists('ssh2_connect')) {
             throw new \RuntimeException('The "ssh2_connect" function does not exist.');
         }
 

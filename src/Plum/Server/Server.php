@@ -15,36 +15,42 @@ class Server implements ServerInterface
 {
     /**
      * The connection hostname
+     *
      * @var string
      */
     protected $host;
 
     /**
      * The connection port
+     *
      * @var string
      */
     protected $port;
 
     /**
      * The connection username
+     *
      * @var string
      */
     protected $user;
 
     /**
      * The connection directory
+     *
      * @var string
      */
     protected $dir;
 
     /**
      * The connection password
+     *
      * @var string
      */
     protected $password;
 
     /**
      * A list of options
+     *
      * @var array
      */
     protected $options;
@@ -55,12 +61,12 @@ class Server implements ServerInterface
             $dir .= '/';
         }
 
-        $this->host = $host;
-        $this->port = $port;
-        $this->user = $user;
-        $this->dir  = $dir;
+        $this->host     = $host;
+        $this->port     = $port;
+        $this->user     = $user;
+        $this->dir      = $dir;
         $this->password = $password;
-        $this->options = $options;
+        $this->options  = $options;
     }
 
     /**
