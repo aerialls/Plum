@@ -12,6 +12,7 @@
 namespace Plum;
 
 use Plum\Deployer\DeployerInterface;
+use Plum\Server\ServerInterface;
 
 class Plum
 {
@@ -84,11 +85,11 @@ class Plum
      * Adds a server to the list
      *
      * @param string $name
-     * @param Server $server
+     * @param \Plum\Server\ServerInterface $server
      *
      * @return \Plum\Plum
      */
-    public function addServer($name, $server)
+    public function addServer($name, ServerInterface $server)
     {
         if (null === $server) {
             throw new \InvalidArgumentException('The server can not be null.');
