@@ -53,7 +53,7 @@ class RsyncDeployer extends AbstractDeployer
                 $exclude
         );
 
-        exec($command);
+        system($command);
     }
 
     /**
