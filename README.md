@@ -12,7 +12,7 @@ Plum does not provide and autoloader but follow the PSR-0 convention.
 
     // Add global options for all the servers
     $plum->setOptions(array(
-        'dryRun'      => true,
+        'dry_run'     => true,
         'excludeFile' => __DIR__.'/exclude.txt'
     ));
 
@@ -20,7 +20,7 @@ Plum does not provide and autoloader but follow the PSR-0 convention.
     $plum->registerDeployer(new \Plum\Deployer\RsyncDeployer());
 
     // Add your server
-    $plum->addServer('bender', new \Plum\Server\Server('www.mywebsite.com', 'login', '/path/to/my/website'));
+    $plum->addServer('server_name', new \Plum\Server\Server('host', 'username', '/path/to/my/website'));
 
     // Let's go!
     $plum->deploy('bender', 'rsync');
