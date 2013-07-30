@@ -46,7 +46,7 @@ class RsyncDeployer extends AbstractDeployer
         $login = sprintf('%s@%s:%s', $server->getUser(), $server->getHost(), $server->getDir());
 
         $command = sprintf('rsync %s %s %s ./ %s  %s',
-                $dryRun,
+                $dryRun ? "--dry-run" : "",
                 $rsyncOptions,
                 $ssh,
                 $login,
