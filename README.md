@@ -23,4 +23,4 @@ Plum does not provide and autoloader but follow the PSR-0 convention.
     $plum->addServer('server_name', new \Plum\Server\Server('host', 'username', '/path/to/my/website'));
 
     // Let's go!
-    $plum->deploy('bender', 'rsync');
+    $plum->deploy('server_name', 'rsync');
